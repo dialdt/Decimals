@@ -61,7 +61,7 @@ function newDraw(u, y) {
       //selectedColor = colors[r];
 
       //New functionality - Draw with pure HTML5
-      line.append('<div class="element" min-height: 50px;">1</div>');
+      line.append('<div class="element" min-height: 50px;"></div>');
     }
 
     if(u < 2) {
@@ -312,3 +312,18 @@ function darkMode() {
     darkModeState = 0;
   }
 }
+
+$('body').on('click', '.element', function(){
+  if($(this).hasClass('clicked')) {
+    $(this).removeClass('clicked');
+    $(this).css({
+      'background-color' : 'blue'
+    });
+  } else {
+    $(this).addClass('clicked');
+    $(this).css({
+      'background-color' : 'red'
+    });
+  }
+
+})
