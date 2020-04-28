@@ -1,12 +1,12 @@
-var canvas = document.getElementById('canvas');
+//var canvas = document.getElementById('canvas');
 var cWidth = 500;
 var cHeight = 5000;
-canvas.width = cWidth;
-canvas.height = cHeight;
+//canvas.width = cWidth;
+//canvas.height = cHeight;
 var d = document.getElementsByTagName('html');
 var run = 0;
 var bHeight = 100;
-var ctx = canvas.getContext('2d');
+//var ctx = canvas.getContext('2d');
 //var l = 100;
 var elements = [];
 var colors = ['#e84393', '#6c5ce7', '#0984e3', '#fdcb6e', '#00cec9'];
@@ -22,6 +22,8 @@ var userInput = document.getElementById('userInput');
 var darkModeState = 0;
 var icons = ['fa-moon', 'fa-lightbulb'];
 let root = document.documentElement;
+let stage = document.getElementById('stage');
+var l = 0;
 
 function init() {
   userInput.value = '';
@@ -33,21 +35,33 @@ function newDraw(u, y) {
   //l = 100;
   var r = Math.floor(Math.random() * colors.length);
   var bWidth = (cWidth - 125)/u
-  if(canvas.getContext) {
+  //if(canvas.getContext) {
     var n = u;
     var x = 75;
     var i;
+    var p;
+    //New functionality = Draw with pure HTML5
+    l++;
+    $('.cont').append('<div class="stage" id="line-' + l + '"></div>');
+    var line = $('#line-' + l);
+    //get % width
+    p = 100/u;
+
+
     for (i = 0; i < n; i++) {
-      ctx.fillStyle = blankColor;
-      ctx.strokeStyle = strokeColor;
-      ctx.fillRect(x, y, bWidth, bHeight);
-      ctx.strokeRect(x, y, bWidth, bHeight);
-      addElement(ctx.fillStyle, ctx.StrokeStyle, ind, x, y, bHeight, bWidth);
-      console.log(elements);
-      x = x + bWidth;
-      ind++
+      //ctx.fillStyle = blankColor;
+      //ctx.strokeStyle = strokeColor;
+      //ctx.fillRect(x, y, bWidth, bHeight);
+      //ctx.strokeRect(x, y, bWidth, bHeight);
+      //addElement(ctx.fillStyle, ctx.StrokeStyle, ind, x, y, bHeight, bWidth);
+      //console.log(elements);
+      //x = x + bWidth;
+      //ind++
       //l--;
       //selectedColor = colors[r];
+
+      //New functionality - Draw with pure HTML5
+      line.append('<div class="element" min-height: 50px;">1</div>');
     }
 
     if(u < 2) {
@@ -62,10 +76,10 @@ function newDraw(u, y) {
       lineText = u + 'ths'
     }
 
-    ctx.fillStyle = '#00b894';
-    ctx.font = '15px Raleway';
-    ctx.fillText(lineText, 0, y + 55);
-  }
+    //ctx.fillStyle = '#00b894';
+    //ctx.font = '15px Raleway';
+    //ctx.fillText(lineText, 0, y + 55);
+  //}
   //capture state
   run++;
 
@@ -103,7 +117,7 @@ function clear() {
 
 }
 
-$('#canvas').click(function(e) {
+/*$('#canvas').click(function(e) {
     var pos = findPos(this);
     var x = e.pageX - pos.x;
     var y = e.pageY - pos.y;
@@ -136,7 +150,7 @@ $('#canvas').click(function(e) {
             //console.log(elements);
     });
     //console.log(hex + ' ' + x + ' ' + y);
-});
+});*/
 
 function rgbToHex(r, g, b) {
     if (r > 255 || g > 255 || b > 255)
@@ -180,20 +194,20 @@ function addElement(c, s, i, x, y, h, w) {
   });
 }
 
-$('#clear').click(function() {
+/*$('#clear').click(function() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   reset();
-});
+});*/
 
 function reset() {
   run = 0;
 }
 
-function isCanvasBlank(canvas) {
+/*function isCanvasBlank(canvas) {
   return !canvas.getContext('2d')
     .getImageData(0, 0, canvas.width, canvas.height).data
     .some(channel => channel !== 0);
-}
+}*/
 
 function findElement(x, y, e) {
   //check criteria
@@ -251,7 +265,7 @@ document.addEventListener('scroll', debounce(storeScroll), { passive: true });
 storeScroll();
 //document.getElementsByTagName('html').onclick = getClick;
 
-function printCanvas() {
+/*function printCanvas() {
   var dataUrl = canvas.toDataURL(); //attempt to save base64 string to server using this var
   var windowContent = '<!DOCTYPE html>';
   windowContent += '<html>'
@@ -267,7 +281,7 @@ function printCanvas() {
   printWin.focus();
   printWin.print();
   printWin.close();
-}
+}*/
 
 function darkMode() {
   if(darkModeState === 0) {

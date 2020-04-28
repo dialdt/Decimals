@@ -187,3 +187,43 @@ html:not([data-scroll='0']) #topTitle {
 .darkMode {
   cursor: pointer;
 }
+
+.line li {
+  display: inline-block;
+  border: 1px solid black;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+.line {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.stage {
+  /* Grid Fallback */
+
+
+/* Supports Grid */
+position: relative;
+margin: 0 auto;
+width: 50%;
+display: grid;
+grid-auto-flow: column;
+
+}
+
+.stage > div {
+  /* Demo-Specific Styles */
+background: #eaeaea;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100px;
+border: 1px solid black;
+
+/* Flex Fallback */
+flex: 1 1 200px;
+}
