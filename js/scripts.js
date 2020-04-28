@@ -24,6 +24,8 @@ var icons = ['fa-moon', 'fa-lightbulb'];
 let root = document.documentElement;
 let stage = document.getElementById('stage');
 var l = 0;
+let params = [];
+let cont = document.getElementById('cont');
 
 function init() {
   userInput.value = '';
@@ -43,37 +45,17 @@ function newDraw(u, y) {
     //New functionality = Draw with pure HTML5
     l++;
     $('.cont').append('<div class="stage" id="line-' + l + '"></div>');
+    //$('.cont').append('<div class="info" id="info-line-' + l + '"></div>');
     var line = $('#line-' + l);
+    //var infoLine = $('#info-line-' + l);
     //get % width
     p = 100/u;
 
 
     for (i = 0; i < n; i++) {
-      //ctx.fillStyle = blankColor;
-      //ctx.strokeStyle = strokeColor;
-      //ctx.fillRect(x, y, bWidth, bHeight);
-      //ctx.strokeRect(x, y, bWidth, bHeight);
-      //addElement(ctx.fillStyle, ctx.StrokeStyle, ind, x, y, bHeight, bWidth);
-      //console.log(elements);
-      //x = x + bWidth;
-      //ind++
-      //l--;
-      //selectedColor = colors[r];
 
       //New functionality - Draw with pure HTML5
-      line.append('<div class="element" min-height: 50px;"></div>');
-    }
-
-    if(u < 2) {
-      lineText = 'whole';
-    } else if (u < 3) {
-      lineText = 'half';
-    } else if (u < 4) {
-      lineText = 'thirds';
-    } else if (u < 5) {
-      lineText = 'quarters';
-    } else if (u >= 5) {
-      lineText = u + 'ths'
+      line.append('<div class="element" min-height: 50px;"><sup>1</sup> &#8260; <sub>' + n + '</sub> </div>');
     }
 
     //ctx.fillStyle = '#00b894';
@@ -91,11 +73,11 @@ function addLine() {
   var val = document.getElementById('userInput').value;
   var p = 25 + (bHeight * run);
   console.log(val);
-  if(val > 100 || val == '') {
-    if(val > 100) {
-      errMsg = 'Don\'t type in more than 100, or else it will crash the system!';
+  if(val > 25 || val == '' || val < 1) {
+    if(val > 25) {
+      errMsg = 'Don\'t type in more than 25, or else it will crash the system!';
     } else {
-      errMsg = 'Please enter a value';
+      errMsg = 'Please enter a valid value';
     }
     error.innerHTML = errMsg;
   } else {
@@ -177,11 +159,6 @@ function findPos(obj) {
     return undefined;
 }
 
-function findE() {
-  var f = $('#canvas').find('background-color', '#fafafa');
-  console.log(f);
-}
-
 function addElement(c, s, i, x, y, h, w) {
   elements.push({
     color: c,
@@ -194,32 +171,13 @@ function addElement(c, s, i, x, y, h, w) {
   });
 }
 
-/*$('#clear').click(function() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+$('#clear').click(function() {
+  $('.cont').empty();
   reset();
-});*/
+});
 
 function reset() {
   run = 0;
-}
-
-/*function isCanvasBlank(canvas) {
-  return !canvas.getContext('2d')
-    .getImageData(0, 0, canvas.width, canvas.height).data
-    .some(channel => channel !== 0);
-}*/
-
-function findElement(x, y, e) {
-  //check criteria
-  if(y > e.top && y < e.top + e.height && x > e.left && x < e.left + e.width) {
-    //return matching element
-    const i = elements.findIndex((e) => y > e.top && y < e.top + e.height && x > e.left && x < e.left + e.width);
-    //(e) => y > e.top && y < e.top + e.height && x > e.left && x < e.left + e.width)
-    return [{el: e, in: i}];
-  }
-
-  //const i = (e) => y > e.top && y < e.top + e.height && x > e.left && x < e.left + e.width;
-  //console.log(elements.findIndex(i));
 }
 
 function smoothScroll() {
@@ -263,26 +221,21 @@ document.addEventListener('scroll', debounce(storeScroll), { passive: true });
 
 // Update scroll position for first time
 storeScroll();
-//document.getElementsByTagName('html').onclick = getClick;
 
-/*function printCanvas() {
-  var dataUrl = canvas.toDataURL(); //attempt to save base64 string to server using this var
-  var windowContent = '<!DOCTYPE html>';
-  windowContent += '<html>'
-  windowContent += '<head><title>Print canvas</title></head>';
-  windowContent += '<body>'
-  windowContent += '<img src="' + dataUrl + '">';
-  windowContent += '</body>';
-  windowContent += '</html>';
-  var printWin = window.open('','','width=340,height=260');
-  printWin.document.open();
-  printWin.document.write(windowContent);
-  printWin.document.close();
-  printWin.focus();
-  printWin.print();
-  printWin.close();
-}*/
+function print() {
+    var divContents = document.getElementById("cont").innerHTML;
+    var a = window.open('', '', 'height=500, width=500');
+    a.document.write('<html><head>');
+    a.document.write('<link rel="stylesheet" href="css/print.css" type="text/css" />');
+    a.document.write('</head>');
+    a.document.write('<body>');
+    a.document.write(divContents);
+    a.document.write('</body></html>');
+    a.document.close();
+    a.print();
+}
 
+//Enable/disable dark mode
 function darkMode() {
   if(darkModeState === 0) {
     root.style.setProperty('--mainBgColor', '#2c3e50');
@@ -291,6 +244,9 @@ function darkMode() {
     });
     root.style.setProperty('--shadowColor', '#fff');
     root.style.setProperty('--heartColor', '#16a085');
+    $('.element').css({
+      'box-shadow' : '2px 2px 0px ' + getComputedStyle(document.documentElement).getPropertyValue('--shadowColor')
+    });
     //remove moon class
     $('.darkMode').removeClass(icons[0]);
     //add class sun
@@ -302,8 +258,12 @@ function darkMode() {
     $('h1').css({
       'text-shadow' : '3px 3px 0px #000, 6px 6px 0px #00b894'
     });
+
     root.style.setProperty('--shadowColor', '#00b894');
     root.style.setProperty('--heartColor', '#e84393');
+    $('.element').css({
+      'box-shadow' : '2px 2px 0px ' + getComputedStyle(document.documentElement).getPropertyValue('--shadowColor')
+    });
     //remove sun class
     $('.darkMode').removeClass(icons[1]);
     //add class moon
@@ -313,17 +273,20 @@ function darkMode() {
   }
 }
 
+//Select box
 $('body').on('click', '.element', function(){
   if($(this).hasClass('clicked')) {
     $(this).removeClass('clicked');
     $(this).css({
-      'background-color' : 'blue'
+      'background-color' : '#e84393',
+      'box-shadow' : '2px 2px 0px ' + getComputedStyle(document.documentElement).getPropertyValue('--shadowColor')
     });
   } else {
     $(this).addClass('clicked');
     $(this).css({
-      'background-color' : 'red'
+      'background-color' : '#8e44ad',
+      'box-shadow' : 'none'
     });
   }
 
-})
+});
