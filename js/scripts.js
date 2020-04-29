@@ -1,5 +1,4 @@
 let d = document.getElementsByTagName('html'),
-    colors = ['#e84393', '#6c5ce7', '#0984e3', '#fdcb6e', '#00cec9'],
     error = document.getElementById('error'),
     input = document.getElementById('mainSection'),
     userInput = document.getElementById('userInput'),
@@ -11,6 +10,12 @@ let d = document.getElementsByTagName('html'),
     params = [],
     cont = document.getElementById('cont')
 
+//New dark mode functionality from https://telmo.im/writings/dark-light-mode-css-javascript
+//Set light theme on load
+document.addEventListener('DOMContentLoaded', function(event) {
+  document.documentElement.setAttribute('data-theme', 'light');
+});
+
 //initialize page
 init();
 
@@ -21,8 +26,6 @@ function init() {
 
 //draw box
 function newDraw(u) {
-  //l = 100;
-    //var r = Math.floor(Math.random() * colors.length);
     var i;
     //New functionality = Draw with pure HTML5
     l++;
@@ -38,7 +41,6 @@ function newDraw(u) {
 function addLine() {
   var errMsg;
   var val = document.getElementById('userInput').value;
-  console.log(val);
   if(val > 25 || val == '' || val < 1) {
     if(val > 25) {
       errMsg = 'Don\'t type in more than 25, or else it will crash the system!';
@@ -52,12 +54,6 @@ function addLine() {
   }
   smoothScroll();
   init();
-}
-
-function getClick(mouseEvent) {
-  var x = mouseEvent.screenX;
-  var y = mouseEvent.screenY;
-  console.log(x + ', ' + y);
 }
 
 $('#clear').click(function() {
@@ -108,45 +104,15 @@ function print() {
     a.document.write(divContents);
     a.document.write('</body></html>');
     a.document.close();
-    a.print();
+    //
 }
 
 //Enable/disable dark mode
 function darkMode() {
-  if(darkModeState === 0) {
-    root.style.setProperty('--mainBgColor', '#2c3e50');
-    $('h1').css({
-      'text-shadow' : 'none'
-    });
-    root.style.setProperty('--shadowColor', '#fff');
-    root.style.setProperty('--heartColor', '#16a085');
-    $('.element').css({
-      'box-shadow' : '2px 2px 0px ' + getComputedStyle(document.documentElement).getPropertyValue('--shadowColor')
-    });
-    //remove moon class
-    $('.darkMode').removeClass(icons[0]);
-    //add class sun
-    $('.darkMode').addClass(icons[1]);
-    //change darkModeState to on
-    darkModeState = 1;
-  } else {
-    root.style.setProperty('--mainBgColor', '#55efc4');
-    $('h1').css({
-      'text-shadow' : '3px 3px 0px #000, 6px 6px 0px #00b894'
-    });
-
-    root.style.setProperty('--shadowColor', '#00b894');
-    root.style.setProperty('--heartColor', '#e84393');
-    $('.element').css({
-      'box-shadow' : '2px 2px 0px ' + getComputedStyle(document.documentElement).getPropertyValue('--shadowColor')
-    });
-    //remove sun class
-    $('.darkMode').removeClass(icons[1]);
-    //add class moon
-    $('.darkMode').addClass(icons[0]);
-    //change darkModeState to off
-    darkModeState = 0;
-  }
+  //New simplified functionality from https://telmo.im/writings/dark-light-mode-css-javascript
+  var currentTheme = document.documentElement.getAttribute('data-theme');
+  var switchToTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', switchToTheme);
 }
 
 //Select box functionality
@@ -164,5 +130,4 @@ $('body').on('click', '.element', function(){
       'box-shadow' : 'none'
     });
   }
-
 });

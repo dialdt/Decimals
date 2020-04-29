@@ -1,9 +1,21 @@
 :root {
-  --shadowColor: #00b894;
+  --shadowColor: #536573;
   --textColor: #000;
   --mainBgColor: #55efc4;
   --heroBgColor: #EBD8D0;
   --heartColor: #e84393;
+  --textShadow: 3px 3px 0px #000, 6px 6px 0px var(--shadowColor);
+  --topTextShadow: 1px 1px 0px #000, 2px 2px 0px var(--shadowColor);
+}
+
+[data-theme="dark"] {
+  --shadowColor: #536573;
+  --textColor: #000;
+  --mainBgColor: #2c3e50;
+  --heroBgColor: #EBD8D0;
+  --heartColor: #16a085;
+  --textShadow: none;
+  --topTextShadow: none;
 }
 
 body, html {
@@ -19,7 +31,7 @@ body, html {
 h1 {
   font-family: Raleway;
   font-weight: 800;
-  text-shadow: 3px 3px 0px #000, 6px 6px 0px var(--shadowColor);
+  text-shadow: var(--textShadow);
   font-size: 3em;
 }
 
@@ -139,7 +151,7 @@ ul li a {
   top: 2px;
   left: 30px;
   font-size: 1.5em;
-  text-shadow: 1px 1px 0px #000, 2px 2px 0px var(--shadowColor);
+  text-shadow: var(--topTextShadow);
   display: none;
 }
 
