@@ -6,6 +6,7 @@
   --heartColor: #e84393;
   --textShadow: 3px 3px 0px #000, 6px 6px 0px var(--shadowColor);
   --topTextShadow: 1px 1px 0px #000, 2px 2px 0px var(--shadowColor);
+  --textColorInv: #000;
 }
 
 [data-theme="dark"] {
@@ -16,6 +17,7 @@
   --heartColor: #16a085;
   --textShadow: none;
   --topTextShadow: none;
+  --textColorInv: #fff;
 }
 
 body, html {
@@ -255,4 +257,20 @@ flex: 1 1 200px;
   display: flex;
   height: 100px;
   width: 10px;
+}
+
+.copy {
+  position: relative;
+  margin: 0 auto;
+  top: 10px;
+  color: var(--textColorInv);
+  bottom: 30px;
+}
+
+footer {
+  margin-bottom: 30px;
+}
+
+.copy a {
+  color: var(--textColorInv);
 }
